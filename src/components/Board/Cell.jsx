@@ -23,9 +23,9 @@ const CellCircle = styled.div`
 `;
 
 const Cell = ({
-  color = "red",
   x = 50,
   y = 50,
+  color = "red",
   isSelected = false,
   onClick = false,
 }) => {
