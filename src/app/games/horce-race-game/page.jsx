@@ -1,7 +1,7 @@
 "use client";
-import GameBoard from "@/components/Board/GameBoard";
-import PionInBoard from "@/components/Board/pionInBoard";
-import BtnRollDice from "@/components/Btn/BtnRollDice";
+import GameBoard from "@/app/horce-race-game/components/Board/GameBoard";
+import PionInBoard from "@/app/horce-race-game/components/Board/pionInBoard";
+import BtnRollDice from "@/app/horce-race-game/components/Btn/BtnRollDice";
 
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-8 text-primary">Dice Game</h1>
+        <h1 className="text-4xl font-bold mb-8 text-primary">🏇 DADA 🏇</h1>
         <BtnRollDice
           result={result}
           setResult={setResult}

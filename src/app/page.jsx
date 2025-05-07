@@ -1,232 +1,111 @@
 "use client";
 
-import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChessKnight,
+  faDice,
+  faDiceFour,
+  faDiceTwo,
+  faDiceOne,
+  faDiceFive,
+  faDiceSix,
+  faDiamond,
+} from "@fortawesome/free-solid-svg-icons";
+import Header from "./Components/Header";
 
 export default function App() {
-  const [hoveredGame, setHoveredGame] = useState(null);
-
   // Liste des jeux
+  // Status : A pour "Available", NA pour "Not Available", IP pour "In Progress"
   const games = [
     {
       id: "yahtzee",
       name: "Yahtzee",
       description: "Lancez les dés, scorez des points et gagnez la partie !",
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="wheat"
-          strokeWidth="2">
-          <rect
-            x="3"
-            y="3"
-            width="18"
-            height="18"
-            rx="2"
-            ry="2"
-          />
-          <circle
-            cx="8.5"
-            cy="8.5"
-            r="1"
-            fill="wheat"
-          />
-          <circle
-            cx="15.5"
-            cy="8.5"
-            r="1"
-            fill="wheat"
-          />
-          <circle
-            cx="15.5"
-            cy="15.5"
-            r="1"
-            fill="wheat"
-          />
-          <circle
-            cx="8.5"
-            cy="15.5"
-            r="1"
-            fill="wheat"
-          />
-          <circle
-            cx="12"
-            cy="12"
-            r="1"
-            fill="wheat"
-          />
-        </svg>
+        <FontAwesomeIcon
+          icon={faDice}
+          size="3x"
+          color="wheat"
+        />
       ),
+      status: "A", // A pour "Available"
     },
     {
-      id: "petits-chevaux",
+      id: "horse-race",
       name: "Jeu des Petits Chevaux",
       description:
-        "Faites avancer vos pions et atteignez l'arrivée en premier !",
+        "Faites avancer votre cavalerie et atteignez l'arrivée en premier !",
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="wheat"
-          strokeWidth="2">
-          <path d="M19 20a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8H2l10-9 10 9h-3v8z" />
-          <path d="M12 10v10" />
-          <path d="M8 16h8" />
-        </svg>
+        <FontAwesomeIcon
+          icon={faChessKnight}
+          size="3x"
+          color="wheat"
+        />
       ),
+      status: "IP",
     },
     {
       id: "421",
       name: "421",
       description:
-        "Obtenez les meilleures combinaisons de dés et prenez les jetons !",
+        "Obtenez les meilleures combinaisons de dés et distribuer vos jetons !",
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="wheat"
-          strokeWidth="2">
-          <rect
-            x="2"
-            y="2"
-            width="6"
-            height="6"
-            rx="1"
+        <div className="flex space-x-2">
+          <FontAwesomeIcon
+            icon={faDiceFour}
+            size="3x"
+            color="wheat"
           />
-          <rect
-            x="9"
-            y="2"
-            width="6"
-            height="6"
-            rx="1"
+          <FontAwesomeIcon
+            icon={faDiceTwo}
+            size="3x"
+            color="wheat"
           />
-          <rect
-            x="16"
-            y="2"
-            width="6"
-            height="6"
-            rx="1"
+          <FontAwesomeIcon
+            icon={faDiceOne}
+            size="3x"
+            color="wheat"
           />
-          <circle
-            cx="5"
-            cy="5"
-            r="1"
-            fill="wheat"
-          />
-          <circle
-            cx="12"
-            cy="5"
-            r="2"
-            fill="none"
-          />
-          <path d="M17 5h4" />
-        </svg>
+        </div>
       ),
+      status: "NA",
     },
     {
       id: "5000",
       name: "5000",
       description: "Lancez les dés et accumulez 5000 points pour gagner !",
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="wheat"
-          strokeWidth="2">
-          <path d="M8 2h8l4 10-4 10H8L4 12z" />
-          <path d="M16 18.5 11 12 16 5.5" />
-          <path d="M8 18.5 3 12 8 5.5" />
-        </svg>
+        <FontAwesomeIcon
+          icon={faDiceFive}
+          size="3x"
+          color="wheat"
+        />
       ),
+      status: "A",
     },
   ];
 
   const handleGameClick = (gameId) => {
-    // Dans une vraie application, cela pourrait être une redirection
-    console.log(`Navigating to ${gameId}`);
-    alert(`Redirection vers le jeu: ${gameId}`);
+    console.log("Jeu sélectionné :", gameId);
+    // Redirigez vers la page du jeu sélectionné
+    if (gameId == "yahtzee") {
+      // Redirection vers le jeu Yahtzee
+      console.log("Redirection vers le jeu :", gameId);
+      window.open("https://yahtzee-app.vercel.app/", "_blank");
+    } else {
+      window.location.href = `/games/${gameId}`;
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#4d4735] flex flex-col items-center">
       {/* Header */}
-      <header className="w-full py-6 flex justify-center items-center">
-        <a
-          href="/"
-          className="flex items-center text-wheat text-4xl font-bold">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="wheat"
-            strokeWidth="2"
-            className="mr-2">
-            <rect
-              x="3"
-              y="3"
-              width="18"
-              height="18"
-              rx="2"
-              ry="2"
-            />
-            <circle
-              cx="8.5"
-              cy="8.5"
-              r="1"
-              fill="wheat"
-            />
-            <circle
-              cx="15.5"
-              cy="8.5"
-              r="1"
-              fill="wheat"
-            />
-            <circle
-              cx="15.5"
-              cy="15.5"
-              r="1"
-              fill="wheat"
-            />
-            <circle
-              cx="8.5"
-              cy="15.5"
-              r="1"
-              fill="wheat"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="1"
-              fill="wheat"
-            />
-          </svg>
-          1, 2, 3 Games
-        </a>
+      <header className="bg-black w-full py-6 flex flex-col space-y-3 justify-center items-center">
+        <Header />
+        <p className="text-wheat text-xl">
+          Les jeux d'hier dans l'univers de demain !
+        </p>
       </header>
-
-      {/* Hero Section */}
-      <div className="w-full py-12 bg-black bg-opacity-20">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <h1 className="text-wheat text-5xl font-bold mb-4">1, 2, 3 Games</h1>
-          <p className="text-wheat text-xl">
-            Les jeux d'hier dans l'univers de demain !
-          </p>
-        </div>
-      </div>
 
       {/* Main content */}
       <main className="w-full max-w-6xl flex-grow p-6">
@@ -238,27 +117,42 @@ export default function App() {
           {games.map((game) => (
             <div
               key={game.id}
-              className="relative bg-black bg-opacity-30 rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 transform hover:scale-105"
-              onClick={() => handleGameClick(game.id)}>
+              className={`relative bg-black bg-opacity-30 rounded-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 ${
+                game.status === "A" ? "cursor-pointer" : "cursor-not-allowed"
+              }`}>
               <div className="p-8 flex flex-col items-center text-center text-wheat">
                 <div className="mb-4">{game.icon}</div>
                 <h3 className="text-3xl font-bold mb-2">{game.name}</h3>
                 <p className="mb-6">{game.description}</p>
                 <button
-                  className={
-                    "px-6 py-3 rounded-lg font-bold transition-colors border-1 border-[#266041] hover:bg-[#266041] text-wheat"
+                  className={`px-6 py-3 rounded-lg font-bold transition-colors border-1 border-[#266041] hover:bg-[#37664d] text-wheat ${
+                    game.status === "A"
+                      ? "cursor-pointer"
+                      : "cursor-not-allowed"
+                  }`}
+                  onClick={() =>
+                    game.status === "A" ? handleGameClick(game.id) : null
                   }>
+                  {/* Renvoyer vers le lien uniquement si le jeu est disponible */}
                   Jouer maintenant
                 </button>
               </div>
 
-              {game.id === "yahtzee" && (
-                <div className="absolute top-4 right-4">
-                  <div className="bg-[#4caf50] text-white text-xs px-2 py-1 rounded">
-                    Disponible
-                  </div>
-                </div>
-              )}
+              {/* Status Badge */}
+              <div
+                className={`absolute top-4 right-4 px-3 py-1 rounded-sm text-xs font-semibold ${
+                  game.status === "A"
+                    ? "bg-green-500 text-white"
+                    : game.status === "IP"
+                    ? "bg-yellow-500 text-white"
+                    : "bg-red-500 text-white"
+                }`}>
+                {game.status === "A"
+                  ? "Disponible"
+                  : game.status === "IP"
+                  ? "En cours de développement"
+                  : "Non disponible"}
+              </div>
             </div>
           ))}
         </div>
@@ -357,55 +251,19 @@ export default function App() {
       <footer className="w-full py-6 bg-[#4d4735] bg-opacity-40">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center mb-4 md:mb-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="wheat"
-              strokeWidth="2"
-              className="mr-2">
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="2"
-                ry="2"
-              />
-              <circle
-                cx="8.5"
-                cy="8.5"
-                r="1"
-                fill="wheat"
-              />
-              <circle
-                cx="15.5"
-                cy="8.5"
-                r="1"
-                fill="wheat"
-              />
-              <circle
-                cx="15.5"
-                cy="15.5"
-                r="1"
-                fill="wheat"
-              />
-              <circle
-                cx="8.5"
-                cy="15.5"
-                r="1"
-                fill="wheat"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="1"
-                fill="wheat"
-              />
-            </svg>
+            <FontAwesomeIcon
+              icon={faDiamond}
+              size="lg"
+              className="mr-2"
+              color="wheat"
+            />
             <span className="text-wheat font-bold">1, 2, 3 Games</span>
+            <FontAwesomeIcon
+              icon={faDiamond}
+              size="lg"
+              className="ml-2"
+              color="wheat"
+            />
           </div>
           <div className="text-wheat">
             <p>
