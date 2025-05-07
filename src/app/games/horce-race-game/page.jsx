@@ -1,7 +1,7 @@
 "use client";
-import GameBoard from "@/app/horce-race-game/components/Board/GameBoard";
-import PionInBoard from "@/app/horce-race-game/components/Board/pionInBoard";
-import BtnRollDice from "@/app/horce-race-game/components/Btn/BtnRollDice";
+import GameBoard from "./components/Board/GameBoard";
+import PionInBoard from "./components/Board/pionInBoard";
+import BtnRollDice from "./components/Btn/BtnRollDice";
 
 import { useState } from "react";
 
