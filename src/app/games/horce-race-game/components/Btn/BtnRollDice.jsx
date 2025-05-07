@@ -1,5 +1,5 @@
 "use client";
-import rollDice from "@/utils/rollDice";
+import rollDice from "@/app/horce-race-game/utils/rollDice";
 import PropTypes from "prop-types";
 
 const BtnRollDice = ({ result, setResult }) => {
