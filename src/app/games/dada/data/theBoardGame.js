@@ -96,146 +96,28 @@ const boardPath = [
   { x: 7, y: 7, win: true }, // id 80
 ];
 
-
 // Maisons de départ pour chaque couleur
-const homes = [
-  // Green additional cells between (0,0) and (5,5)
-  { x: 0, y: 0, home: "green" },
-  { x: 0, y: 1, home: "green" },
-  { x: 0, y: 2, home: "green" },
-  { x: 0, y: 3, home: "green" },
-  { x: 0, y: 4, home: "green" },
-  { x: 0, y: 5, home: "green" },
-  { x: 1, y: 0, home: "green" },
-  { x: 1, y: 1, home: "green" },
-  { x: 1, y: 2, home: "green" },
-  { x: 1, y: 3, home: "green" },
-  { x: 1, y: 4, home: "green" },
-  { x: 1, y: 5, home: "green" },
-  { x: 2, y: 0, home: "green" },
-  { x: 2, y: 1, home: "green" },
-  { x: 2, y: 4, home: "green" },
-  { x: 2, y: 5, home: "green" },
-  { x: 3, y: 0, home: "green" },
-  { x: 3, y: 1, home: "green" },
-  { x: 3, y: 4, home: "green" },
-  { x: 3, y: 5, home: "green" },
-  { x: 4, y: 0, home: "green" },
-  { x: 4, y: 1, home: "green" },
-  { x: 4, y: 2, home: "green" },
-  { x: 4, y: 3, home: "green" },
-  { x: 4, y: 4, home: "green" },
-  { x: 4, y: 5, home: "green" },
-  { x: 5, y: 0, home: "green" },
-  { x: 5, y: 1, home: "green" },
-  { x: 5, y: 2, home: "green" },
-  { x: 5, y: 3, home: "green" },
-  { x: 5, y: 4, home: "green" },
-  { x: 5, y: 5, home: "green" },
-
-  // Blue additional cells between (9,0) and (14,5)
-  { x: 9, y: 0, home: "blue" },
-  { x: 9, y: 1, home: "blue" },
-  { x: 9, y: 2, home: "blue" },
-  { x: 9, y: 3, home: "blue" },
-  { x: 9, y: 4, home: "blue" },
-  { x: 9, y: 5, home: "blue" },
-  { x: 10, y: 0, home: "blue" },
-  { x: 10, y: 1, home: "blue" },
-  { x: 10, y: 2, home: "blue" },
-  { x: 10, y: 3, home: "blue" },
-  { x: 10, y: 4, home: "blue" },
-  { x: 10, y: 5, home: "blue" },
-  { x: 11, y: 0, home: "blue" },
-  { x: 11, y: 1, home: "blue" },
-  { x: 11, y: 4, home: "blue" },
-  { x: 11, y: 5, home: "blue" },
-  { x: 12, y: 0, home: "blue" },
-  { x: 12, y: 1, home: "blue" },
-  { x: 12, y: 4, home: "blue" },
-  { x: 12, y: 5, home: "blue" },
-  { x: 13, y: 0, home: "blue" },
-  { x: 13, y: 1, home: "blue" },
-  { x: 13, y: 2, home: "blue" },
-  { x: 13, y: 3, home: "blue" },
-  { x: 13, y: 4, home: "blue" },
-  { x: 13, y: 5, home: "blue" },
-  { x: 14, y: 0, home: "blue" },
-  { x: 14, y: 1, home: "blue" },
-  { x: 14, y: 2, home: "blue" },
-  { x: 14, y: 3, home: "blue" },
-  { x: 14, y: 4, home: "blue" },
-  { x: 14, y: 5, home: "blue" },
-
-  // Red additional cells between (0,9) and (5,14)
-  { x: 0, y: 9, home: "red" },
-  { x: 0, y: 10, home: "red" },
-  { x: 0, y: 11, home: "red" },
-  { x: 0, y: 12, home: "red" },
-  { x: 0, y: 13, home: "red" },
-  { x: 0, y: 14, home: "red" },
-  { x: 1, y: 9, home: "red" },
-  { x: 1, y: 10, home: "red" },
-  { x: 1, y: 11, home: "red" },
-  { x: 1, y: 12, home: "red" },
-  { x: 1, y: 13, home: "red" },
-  { x: 1, y: 14, home: "red" },
-  { x: 2, y: 9, home: "red" },
-  { x: 2, y: 10, home: "red" },
-  { x: 2, y: 13, home: "red" },
-  { x: 2, y: 14, home: "red" },
-  { x: 3, y: 9, home: "red" },
-  { x: 3, y: 10, home: "red" },
-  { x: 3, y: 13, home: "red" },
-  { x: 3, y: 14, home: "red" },
-  { x: 4, y: 9, home: "red" },
-  { x: 4, y: 10, home: "red" },
-  { x: 4, y: 11, home: "red" },
-  { x: 4, y: 12, home: "red" },
-  { x: 4, y: 13, home: "red" },
-  { x: 4, y: 14, home: "red" },
-  { x: 5, y: 9, home: "red" },
-  { x: 5, y: 10, home: "red" },
-  { x: 5, y: 11, home: "red" },
-  { x: 5, y: 12, home: "red" },
-  { x: 5, y: 13, home: "red" },
-  { x: 5, y: 14, home: "red" },
-
-  // Yellow additional cells between (9,9) and (14,14)
-  { x: 9, y: 9, home: "yellow" },
-  { x: 9, y: 10, home: "yellow" },
-  { x: 9, y: 11, home: "yellow" },
-  { x: 9, y: 12, home: "yellow" },
-  { x: 9, y: 13, home: "yellow" },
-  { x: 9, y: 14, home: "yellow" },
-  { x: 10, y: 9, home: "yellow" },
-  { x: 10, y: 10, home: "yellow" },
-  { x: 10, y: 11, home: "yellow" },
-  { x: 10, y: 12, home: "yellow" },
-  { x: 10, y: 13, home: "yellow" },
-  { x: 10, y: 14, home: "yellow" },
-  { x: 11, y: 9, home: "yellow" },
-  { x: 11, y: 10, home: "yellow" },
-  { x: 11, y: 13, home: "yellow" },
-  { x: 11, y: 14, home: "yellow" },
-  { x: 12, y: 9, home: "yellow" },
-  { x: 12, y: 10, home: "yellow" },
-  { x: 12, y: 13, home: "yellow" },
-  { x: 12, y: 14, home: "yellow" },
-  { x: 13, y: 9, home: "yellow" },
-  { x: 13, y: 10, home: "yellow" },
-  { x: 13, y: 11, home: "yellow" },
-  { x: 13, y: 12, home: "yellow" },
-  { x: 13, y: 13, home: "yellow" },
-  { x: 13, y: 14, home: "yellow" },
-  { x: 14, y: 9, home: "yellow" },
-  { x: 14, y: 10, home: "yellow" },
-  { x: 14, y: 11, home: "yellow" },
-  { x: 14, y: 12, home: "yellow" },
-  { x: 14, y: 13, home: "yellow" },
-  { x: 14, y: 14, home: "yellow" },
-];
-
+const homes = [];
+for (let x = 0; x < 6; x++) {
+  for (let y = 0; y < 6; y++) {
+    homes.push({ x, y, home: "green" });
+  }
+}
+for (let x = 9; x < 15; x++) {
+  for (let y = 0; y < 6; y++) {
+    homes.push({ x, y, home: "blue" });
+  }
+}
+for (let x = 0; x < 6; x++) {
+  for (let y = 9; y < 15; y++) {
+    homes.push({ x, y, home: "red" });
+  }
+}
+for (let x = 9; x < 15; x++) {
+  for (let y = 9; y < 15; y++) {
+    homes.push({ x, y, home: "yellow" });
+  }
+}
 
 // Configuration des maisons pour chaque couleur
 const piecesInHomes = {
@@ -275,131 +157,20 @@ const pionGrid = Array.from({ length: 15 }, (_, y) =>
 );
 
 
-const bluePions = [
-  {
-    id: "b1",
-    color: "blue",
-    positionIndex: piecesInHomes.blue[0],
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "b2",
-    color: "blue",
+// Create pions for each color using a factory function
+const createPions = (color, prefix) => {
+  return Array.from({ length: 4 }, (_, i) => ({
+    id: `${prefix}${i+1}`,
+    color,
     positionIndex: null,
     inHome: true,
     isFinished: false,
-  },
-  {
-    id: "b3",
-    color: "blue",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "b4",
-    color: "blue",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-];
+  }));
+};
 
-
-const yellowPions = [
-  {
-    id: "y1",
-    color: "yellow",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "y2",
-    color: "yellow",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "y3",
-    color: "yellow",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "y4",
-    color: "yellow",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-];
-
-
-const redPions = [
-  {
-    id: "r1",
-    color: "red",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "r2",
-    color: "red",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "r3",
-    color: "red",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "r4",
-    color: "red",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-];
-
-
-const greenPions = [
-  {
-    id: "g1",
-    color: "green",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "g2",
-    color: "green",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "g3",
-    color: "green",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-  {
-    id: "g4",
-    color: "green",
-    positionIndex: null,
-    inHome: true,
-    isFinished: false,
-  },
-];
+const bluePions = createPions('blue', 'b');
+const yellowPions = createPions('yellow', 'y');
+const redPions = createPions('red', 'r');
+const greenPions = createPions('green', 'g');
 
 export { boardPath, homes, piecesInHomes, pionGrid, bluePions, yellowPions, redPions, greenPions };

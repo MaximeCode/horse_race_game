@@ -1,26 +1,27 @@
 "use client";
 import GameBoard from "./components/Board/GameBoard";
-import PionInBoard from "./components/Board/pionInBoard";
 import BtnRollDice from "./components/Btn/BtnRollDice";
 
 import { useState } from "react";
+import DadaHeader from "./components/DadaHeader";
 
 export default function Dada() {
   const [result, setResult] = useState(0);
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-8 text-primary">🏇 DADA 🏇</h1>
-        <BtnRollDice
-          result={result}
-          setResult={setResult}
-        />
-      </div>
-      <div className="relative w-full h-full">
-        <GameBoard />
 
-        <div className="absolute top-0 left-0">{/* <PionInBoard /> */}</div>
-      </div>
+  return (
+    <main className="min-h-screen w-full">
+      <DadaHeader />
+      <article className="grid grid-cols-4 gap-4">
+        <div className="flex flex-col items-center justify-center">
+          <BtnRollDice
+            result={result}
+            setResult={setResult}
+          />
+        </div>
+        <div className="col-span-3 relative w-full h-full flex items-center justify-center">
+          <GameBoard />
+        </div>
+      </article>
     </main>
   );
 }

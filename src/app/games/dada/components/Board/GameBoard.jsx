@@ -6,7 +6,7 @@ import { boardPath, homes, piecesInHomes } from "../../data/theBoardGame";
 
 const GameBoard = () => {
   return (
-    <div className="w-full max-w-[800px] aspect-square grid grid-cols-15 grid-rows-15 border border-white">
+    <div className="relative w-full max-w-[800px] aspect-square grid grid-cols-15 grid-rows-15 border border-white">
       {boardPath.map((pos) => (
         <div
           key={`${pos.x}-${pos.y}`}
@@ -20,7 +20,8 @@ const GameBoard = () => {
             className={clsx(
               "absolute w-10/12 h-10/12 flex items-center justify-center",
               pos.color && `bg-${pos.color}-100`,
-              pos.scale && "rounded-full"
+              pos.scale && "rounded-full",
+              pos.win && "bg-black w-full h-full"
             )}
             style={{
               top: "50%",
@@ -40,13 +41,14 @@ const GameBoard = () => {
               </div>
             )}
             {pos.win && (
-              <div className="w-8 h-8 rounded-full border border-amber-500 flex justify-center items-center">
+              <div className="text-2xl w-10/12 h-10/12 rounded-full border border-amber-500 flex justify-center items-center">
                 🏆
               </div>
             )}
           </div>
         </div>
       ))}
+
       {/* Homes */}
       {homes.map((home) => (
         <div
@@ -57,25 +59,31 @@ const GameBoard = () => {
           )}
           style={{ gridColumn: home.x + 1, gridRow: home.y + 1 }}></div>
       ))}
+
       {/* Pieces in homes */}
-      {Object.entries(piecesInHomes).map(([color, pieces]) =>
-        pieces.map((piece, index) => (
-          <div
-            key={`${color}-${index}`}
-            className={clsx(
-              "flex items-center justify-center border border-white",
-              `bg-${color}-500`
-            )}
-            style={{
-              gridColumn: piece.x + 1,
-              gridRow: piece.y + 1,
-            }}>
-            <div className="w-6 h-6 rounded-full bg-white flex justify-center items-center">
-              <span className={`text-${color}-500`}>{index + 1}</span>
-            </div>
-          </div>
-        ))
-      )}
+      {/*étire le conteneur sur toute la surface du parent relatif.*/}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="w-full h-full grid grid-cols-15 grid-rows-15">
+          {Object.entries(piecesInHomes).map(([color, pieces]) =>
+            pieces.map((piece, index) => (
+              <div
+                key={`${color}-${index}`}
+                className={clsx(
+                  "flex items-center justify-center border border-white",
+                  `bg-${color}-500`
+                )}
+                style={{
+                  gridColumn: piece.x + 1,
+                  gridRow: piece.y + 1,
+                }}>
+                <div className="w-6 h-6 rounded-full bg-white flex justify-center items-center">
+                  <span className={`text-${color}-500`}>{index + 1}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 };

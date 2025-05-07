@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "./Components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChessKnight,
@@ -98,6 +99,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#4d4735] flex flex-col items-center text-gray-200">
+      {/* Header */}
+      <header className="bg-black w-full py-6 flex flex-col space-y-3 justify-center items-center">
+        <Header />
+        <p className="text-wheat text-xl">
+          Les jeux d'hier dans l'univers de demain !
+        </p>
+      </header>
       {/* Main content */}
       <main className="w-full max-w-6xl flex-grow p-6">
         <h2 className="text-wheat text-3xl font-bold text-center mb-12">
