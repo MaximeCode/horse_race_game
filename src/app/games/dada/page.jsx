@@ -5,7 +5,7 @@ import BtnRollDice from "./components/Btn/BtnRollDice";
 
 import { useState } from "react";
 
-export default function Home() {
+export default function Dada() {
   const [result, setResult] = useState(0);
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
@@ -19,9 +19,7 @@ export default function Home() {
       <div className="relative w-full h-full">
         <GameBoard />
 
-        <div className="absolute top-0 left-0">
-          <PionInBoard />
-        </div>
+        <div className="absolute top-0 left-0">{/* <PionInBoard /> */}</div>
       </div>
     </main>
   );

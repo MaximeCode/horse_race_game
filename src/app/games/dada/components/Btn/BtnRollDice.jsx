@@ -1,6 +1,8 @@
 "use client";
-import rollDice from "@/app/horce-race-game/utils/rollDice";
+import rollDice from "../../utils/rollDice";
 import PropTypes from "prop-types";
+
+import { Button } from "flowbite-react";
 
 const BtnRollDice = ({ result, setResult }) => {
   const rollTheDice = () => {
@@ -19,6 +21,7 @@ const BtnRollDice = ({ result, setResult }) => {
         onClick={() => rollTheDice()}>
         Roll Dice
       </button>
+      <Button>Default</Button>
     </div>
   );
 };

@@ -2,22 +2,16 @@
 import React from "react";
 import clsx from "clsx";
 
-import {
-  boardPath,
-  homes,
-  piecesInHomes,
-} from "@/components/data/theBoardGame";
+import { boardPath, homes, piecesInHomes } from "../../data/theBoardGame";
 
 const GameBoard = () => {
   return (
-    <div
-      data-theme="custom-overrides"
-      className="w-full max-w-[600px] aspect-square grid grid-cols-15 grid-rows-15 border border-gray-700">
+    <div className="w-full max-w-[800px] aspect-square grid grid-cols-15 grid-rows-15 border border-white">
       {boardPath.map((pos) => (
         <div
           key={`${pos.x}-${pos.y}`}
           className={clsx(
-            "relative w-full h-full grid place-items-center text-white font-bold text-xl",
+            "relative w-full h-full grid place-items-center text-white font-bold text-xl border border-white",
             pos.color && `bg-${pos.color}-500`
           )}
           style={{ gridColumn: pos.x + 1, gridRow: pos.y + 1 }}>
@@ -69,7 +63,7 @@ const GameBoard = () => {
           <div
             key={`${color}-${index}`}
             className={clsx(
-              "flex items-center justify-center",
+              "flex items-center justify-center border border-white",
               `bg-${color}-500`
             )}
             style={{

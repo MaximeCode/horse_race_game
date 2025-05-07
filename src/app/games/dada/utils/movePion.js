@@ -7,7 +7,7 @@ import {
   yellowPions,
   redPions,
   greenPions,
-} from "@/components/data/theBoardGame";
+} from  "../data/theBoardGame";
 
 function movePion(pion, steps) {
   if (pion.positionIndex === null && steps === 6) {

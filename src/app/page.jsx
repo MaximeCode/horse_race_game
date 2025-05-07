@@ -11,7 +11,6 @@ import {
   faDiceSix,
   faDiamond,
 } from "@fortawesome/free-solid-svg-icons";
-import Header from "./Components/Header";
 
 export default function App() {
   // Liste des jeux
@@ -31,7 +30,7 @@ export default function App() {
       status: "A", // A pour "Available"
     },
     {
-      id: "horse-race",
+      id: "dada",
       name: "Jeu des Petits Chevaux",
       description:
         "Faites avancer votre cavalerie et atteignez l'arrivée en premier !",
@@ -98,15 +97,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#4d4735] flex flex-col items-center">
-      {/* Header */}
-      <header className="bg-black w-full py-6 flex flex-col space-y-3 justify-center items-center">
-        <Header />
-        <p className="text-wheat text-xl">
-          Les jeux d'hier dans l'univers de demain !
-        </p>
-      </header>
-
+    <div className="min-h-screen bg-[#4d4735] flex flex-col items-center text-gray-200">
       {/* Main content */}
       <main className="w-full max-w-6xl flex-grow p-6">
         <h2 className="text-wheat text-3xl font-bold text-center mb-12">
@@ -131,7 +122,9 @@ export default function App() {
                       : "cursor-not-allowed"
                   }`}
                   onClick={() =>
-                    game.status === "A" ? handleGameClick(game.id) : null
+                    game.status === "A" || game.status === "IP"
+                      ? handleGameClick(game.id)
+                      : null
                   }>
                   {/* Renvoyer vers le lien uniquement si le jeu est disponible */}
                   Jouer maintenant
