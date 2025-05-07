@@ -12,16 +12,18 @@ const BtnRollDice = ({ result, setResult }) => {
   return (
     <div>
       {result > 0 && (
-        <h2 className="text-5xl mb-4 text-secondary font-extrabold text-center">
+        <h2 className="text-5xl mb-4 text-blue-500 font-extrabold text-center">
           {result}
         </h2>
       )}
-      <button
-        className="btn btn-secondary"
-        onClick={() => rollTheDice()}>
-        Roll Dice
-      </button>
-      <Button>Default</Button>
+
+      {/* Add color of player */}
+      <Button
+        color={"blue"}
+        onClick={() => rollTheDice()}
+        className="text-xl cursor-pointer">
+        Lancé le dé
+      </Button>
     </div>
   );
 };
