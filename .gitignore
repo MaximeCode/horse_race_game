@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+node_modules
+
+# Node modules in all games files
+./games/*/server/node_modules

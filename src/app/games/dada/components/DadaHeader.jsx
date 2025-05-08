@@ -2,7 +2,7 @@ import React from "react";
 
 const DadaHeader = () => {
   return (
-    <div className="text-center py-6 relative">
+    <div className="text-center relative">
       {/* Ligne dorée supérieure */}
       <div className="h-1 w-full mx-auto mb-4 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-300 rounded-full" />
       <h1 className="text-4xl text-yellow-400 font-extrabold text-primary uppercase tracking-wider">
