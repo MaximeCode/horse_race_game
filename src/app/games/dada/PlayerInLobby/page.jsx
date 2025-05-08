@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import useSocket from "../utils/useSocket";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
+import { faSquareCheck, faWebAwesome } from "@fortawesome/free-solid-svg-icons";
 
 export default function PlayerInLobby({ gameStarted, setGameStarted }) {
   const [player, setPlayer] = useState({
-    name: "Player 3",
+    name: "",
     color: "black",
+    leader: false,
   }); // State to manage player in the lobby
 
   const [playerIsReady, setPlayerIsReady] = useState(false);
@@ -25,6 +26,15 @@ export default function PlayerInLobby({ gameStarted, setGameStarted }) {
     socket.on("updatePlayers", (playersList) => {
       console.log("Tous les joueurs :", playersList);
       setPlayersList(playersList);
+      if (playersList.length > 0) {
+        const playerInLobby = playersList.find(
+          (player) => player.id === socket.id
+        );
+        if (playerInLobby) {
+          setPlayer(playerInLobby);
+          console.log("Player in lobby:", playerInLobby);
+        }
+      }
     });
 
     // Nettoyage à la déconnexion du composant
@@ -131,11 +141,27 @@ export default function PlayerInLobby({ gameStarted, setGameStarted }) {
               {playersList.map((player) => (
                 <div
                   key={player.id}
-                  className={`flex justify-center items-center bg-${player.color}-600 text-white p-6 rounded-md`}>
+                  className={`relative flex justify-center items-center bg-${player.color}-600 text-white p-6 rounded-md`}>
+                  {player.leader && (
+                    <div className="absolute -top-3 -left-4 -rotate-45">
+                      <FontAwesomeIcon
+                        icon={faWebAwesome}
+                        className="text-yellow-300 text-2xl"
+                      />
+                    </div>
+                  )}
                   <span>{player.name}</span>
                 </div>
               ))}
             </div>
+            {/* Seul le leader peut lancer la game */}
+            {player.leader && (
+              <button
+                className="w-full bg-green-600 text-white py-2 px-4 mt-5 rounded-md hover:bg-green-700 transition duration-200"
+                onClick={startNewGame}>
+                Démarrer la partie
+              </button>
+            )}
           </>
         )}
       </div>
