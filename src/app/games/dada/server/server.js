@@ -13,15 +13,17 @@ let players = [];
 
 io.on("connection", (socket) => {
   console.log("Joueur connecté :", socket.id);
+  socket.emit("updatePlayers", players); // Envoie la liste des joueurs au nouveau joueur
 
   socket.on("joinGame", ({ name, color }) => {
     const player = {
       id: socket.id,
       name,
       color,
+      leader: players.length === 0, // Le premier joueur devient le leader
     };
     players.push(player);
-    console.log(`Joueur ${name} (${color}) a rejoint la partie.`);
+    console.log(`${players.length === 0 ? "[LEADER]" : "[Player]"} | Joueur ${name} (${color}) a rejoint la partie.`);
     io.emit("updatePlayers", players);
   })
 

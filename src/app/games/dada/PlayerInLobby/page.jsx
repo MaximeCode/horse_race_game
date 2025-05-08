@@ -18,6 +18,7 @@ export default function PlayerInLobby({ gameStarted, setGameStarted }) {
   const socketRef = useSocket(); // Custom hook to manage WebSocket connection
 
   useEffect(() => {
+    console.log("WebSocket connection established with socketRef");
     if (!socketRef.current) return;
     const socket = socketRef.current;
 
@@ -37,9 +38,14 @@ export default function PlayerInLobby({ gameStarted, setGameStarted }) {
     setGameStarted(true);
   };
 
+  const takenNames = playersList.map((player) => player.name); // Get all names taken by players
+  const isNameTaken = (name) => takenNames.includes(name);
+
   const takenColors = playersList.map((player) => player.color); // Get all colors taken by players
   const colors = ["red", "blue", "green", "yellow"];
-  const availableColors = colors.filter((color) => !takenColors.includes(color)); // Get all available colors
+  const availableColors = colors.filter(
+    (color) => !takenColors.includes(color)
+  ); // Get all available colors
 
   return (
     <div className="min-h-screen bg-green-800 flex flex-col items-center py-8 px-4">
@@ -93,17 +99,25 @@ export default function PlayerInLobby({ gameStarted, setGameStarted }) {
             <button
               className="w-full bg-green-600 text-white py-2 px-4 mt-5 rounded-md hover:bg-green-700 transition duration-200"
               onClick={() => {
-                console.log("Player is ready:", player);
-                setPlayerIsReady(true);
-                socketRef.current.emit("joinGame", {
-                  name: player.name,
-                  color: player.color,
-                });
-                console.log(
-                  "Player joined the game:",
-                  player.name,
-                  player.color
-                );
+                if (isNameTaken(player.name)) {
+                  alert("Ce nom est déjà pris ! Choisissez-en un autre.");
+                } else if (takenColors.includes(player.color)) {
+                  alert(
+                    "Cette couleur est déjà prise ! Choisissez-en une autre."
+                  );
+                } else {
+                  console.log("Player is ready:", player);
+                  setPlayerIsReady(true);
+                  socketRef.current.emit("joinGame", {
+                    name: player.name,
+                    color: player.color,
+                  });
+                  console.log(
+                    "Player joined the game:",
+                    player.name,
+                    player.color
+                  );
+                }
               }}>
               Prêt à jouer !
             </button>
