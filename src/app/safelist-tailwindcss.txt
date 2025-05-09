@@ -14,3 +14,11 @@ bg-black
 border-white
 border-amber-500
 text-white
+bg-blue-600
+bg-green-600
+bg-yellow-600
+bg-red-600
+text-red-600
+text-yellow-600
+text-blue-600
+text-green-600

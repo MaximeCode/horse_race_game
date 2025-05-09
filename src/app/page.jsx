@@ -93,7 +93,7 @@ export default function App() {
       console.log("Redirection vers le jeu :", gameId);
       window.open("https://yahtzee-app.vercel.app/", "_blank");
     } else {
-      window.location.href = `/games/${gameId}`;
+      window.location.href = `/games/${gameId}/`;
     }
   };
 

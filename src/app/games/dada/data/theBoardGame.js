@@ -160,10 +160,9 @@ const pionGrid = Array.from({ length: 15 }, (_, y) =>
 // Create pions for each color using a factory function
 const createPions = (color, prefix) => {
   return Array.from({ length: 4 }, (_, i) => ({
-    id: `${prefix}${i+1}`,
+    id: `${prefix}${i + 1}`,
     color,
     positionIndex: null,
-    inHome: true,
     isFinished: false,
   }));
 };
