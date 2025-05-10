@@ -1,11 +1,9 @@
 import DadaHeader from "./components/DadaHeader";
-import { SocketProvider } from "./utils/SocketProvider";
-
 import PropTypes from "prop-types";
 
 export default function DadaLayout({ children }) {
   return (
-    <SocketProvider>
+    <>
       <DadaHeader />
 
       {/* Fond vert prenant toute la page sauf le header */}
@@ -14,7 +12,7 @@ export default function DadaLayout({ children }) {
           {children}
         </div>
       </div>
-    </SocketProvider>
+    </>
   );
 }
 

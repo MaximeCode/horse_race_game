@@ -1,9 +1,9 @@
 "use client";
 import GameBoard from "../components/Board/GameBoard";
-import BtnRollDice from "../components/Btn/BtnRollDice";
+import BtnRollDice from "../components/BtnRollDice";
 
 import { useState } from "react";
-import PlayerInLobby from "../PlayerInLobby/page";
+import PlayerInLobby from "../components/Lobby";
 
 import { useParams } from "next/navigation";
 
