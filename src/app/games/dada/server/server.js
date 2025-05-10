@@ -2,6 +2,7 @@ const { Server } = require("socket.io");
 const http = require("http");
 
 const server = http.createServer();
+
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -44,6 +45,9 @@ io.on("connection", (socket) => {
 
     socket.emit("roomCreated", roomName); // Envoie un message au client qui a créé la room
     socket.join(roomName); // Met le joueur dans sa room WebSocket
+
+    // envoi les liste des joueurs dans la room
+    socket.emit("updatePlayers", rooms[roomName].players);
   });
 
   // Lister les rooms disponibles
@@ -52,12 +56,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("joinRoom", ({ roomId, name, color }) => {
-    socket.join(roomId); // Met le joueur dans sa room WebSocket
+    console.log(`Joueur ${name} (${color}) a rejoint la room ${roomId}`);
 
-    if (!rooms[roomId]) rooms[roomId] = [];
+    if (!rooms[roomId]) {
+      rooms[roomId] = {
+        players: [],
+        createdAt: Date.now(),
+        isStarted: false,
+      };
+    }
+
+    console.log("La room : ", rooms[roomId]);
+
+    const playersInRoom = rooms[roomId].players;
 
     // ✔ Vérifie que le nom n'est pas déjà utilisé dans cette room
-    const nameAlreadyTaken = rooms[roomId].players.findIndex((p) => p.name === name);
+    const nameAlreadyTaken = playersInRoom.findIndex((p) => p.name === name);
     if (nameAlreadyTaken) {
       socket.emit("errorJoin", "Ce nom est déjà pris ! (Erreur serveur)");
       return;
@@ -70,32 +84,37 @@ io.on("connection", (socket) => {
       leader: false,
     };
 
-    rooms[roomId].push(player);
+    playersInRoom.push(player);
+    console.log("✔️ Nouveau joueur ajouté :", player);
+    console.log("📦 État actuel des joueurs :", rooms[roomId].players);
+
     updateLeader(roomId); // 👈 met à jour le leader pour cette room
 
     console.log(
       `${player.leader ? "[LEADER]" : "[Player]"} | Joueur ${name} (${color}) a rejoint la room ${roomId}`
     );
 
-    io.to(roomId).emit("updatePlayers", rooms[roomId]);
+    socket.join(roomId); // Met le joueur dans sa room WebSocket
+    io.to(roomId).emit("updatePlayers", rooms[roomId].players);
   });
 
   socket.on("disconnect", () => {
     console.log("❌ Déconnecté du WebSocket");
     // Retire le joueur de la room
     for (const roomId in rooms) {
-      const playerIndex = rooms[roomId].players.findIndex((p) => p.id === socket.id);
+      const playersInRoom = rooms[roomId].players;
+      const playerIndex = playersInRoom.findIndex((p) => p.id === socket.id);
       if (playerIndex !== -1) {
         const playerName = rooms[roomId][playerIndex].name;
-        rooms[roomId].splice(playerIndex, 1); // Retire le joueur de la room
+        playersInRoom.splice(playerIndex, 1); // Retire le joueur de la room
 
         console.log(`Joueur ${playerName} a quitté la room ${roomId}`);
         updateLeader(roomId); // Met à jour le leader après la déconnexion d'un joueur
         // Diffuser la mise à jour
-        io.to(roomId).emit("updatePlayers", rooms[roomId]);
+        io.to(roomId).emit("updatePlayers", rooms[roomId].players);
 
         // Si la room est vide, la supprimer
-        if (rooms[roomId].length === 0) {
+        if (playersInRoom.length === 0) {
           delete rooms[roomId];
           console.log(`Room ${roomId} supprimée`);
         }

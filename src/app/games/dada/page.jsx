@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import useSocket from "./utils/useSocket";
+import { useSocket } from "./utils/SocketProvider";
 
 export default function HomeDada() {
   const [roomList, setRoomList] = useState([]); // Le websocket renvoi un tableau de rooms et non un objet
@@ -11,20 +11,30 @@ export default function HomeDada() {
   const socketRef = useSocket();
 
   useEffect(() => {
-    if (!socketRef.current) return;
+    console.log("Socket ref :", socketRef);
     const socket = socketRef.current;
+    if (!socket) return;
 
-    socket.emit("getRoomsList"); // demander la liste des rooms
+    const handleConnect = () => {
+      console.log("🔌 Connexion WebSocket prête :", socket.id);
+      socket.emit("getRoomsList");
+    };
 
+    // ⚠️ Même si on est déjà connecté
+    if (socket.connected) {
+      handleConnect();
+    }
+
+    socket.on("connect", handleConnect);
     socket.on("updateRoomList", (rooms) => {
+      console.log("🎯 Rooms disponibles :", rooms);
       setRoomList(rooms);
-      console.log("Liste des rooms :", rooms);
     });
 
     return () => {
       socket.off("updateRoomList");
     };
-  }, []);
+  }, [socketRef]); // ✅ on dépend de socketRef (le ref en tant que valeur) — pas de .current
 
   function handleCreateRoom() {
     const roomName = prompt("Entrez le nom de votre room :"); // !!! FAIRE UNE MODAL FLOWBITE !!!
@@ -67,7 +77,7 @@ export default function HomeDada() {
       </div>
       <div className="flex flex-col items-center justify-center mt-5">
         <button
-          className="bg-blue-600 text-white text-lg py-2 px-4 mt-5 rounded-md hover:bg-blue-700 transition duration-200 cursor-pointer"
+          className="btn btn-primary"
           onClick={() => {
             handleCreateRoom();
           }}>

@@ -1,6 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @import "tailwindcss";
+@plugin "daisyui" {
+  themes: fantasy --default;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: blue;
+  --color-secondary: teal;
+}
+
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../../.flowbite-react/class-list.json";
 
@@ -8,9 +18,4 @@ h1,
 h2,
 header {
   font-family: "Playfair Display", serif;
-}
-
-html {
-  theme: light;
-  color-scheme: light;
 }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import useSocket from "../utils/useSocket";
+import { useSocket } from "../utils/SocketProvider"; // Custom hook to manage WebSocket connection
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck, faWebAwesome } from "@fortawesome/free-solid-svg-icons";
@@ -18,31 +18,6 @@ export default function PlayerInLobby({ gameStarted, setGameStarted, room }) {
   const [playersList, setPlayersList] = useState([]); // State to manage players list
 
   const socketRef = useSocket(); // Custom hook to manage WebSocket connection
-
-  useEffect(() => {
-    console.log("WebSocket connection established with socketRef");
-    if (!socketRef.current) return;
-    const socket = socketRef.current;
-
-    socket.on("updatePlayers", (playersList) => {
-      console.log("Tous les joueurs :", playersList);
-      setPlayersList(playersList);
-      if (playersList.length > 0) {
-        const playerInLobby = playersList.find(
-          (player) => player.id === socket.id
-        );
-        if (playerInLobby) {
-          setPlayer(playerInLobby);
-          console.log("Player in lobby:", playerInLobby);
-        }
-      }
-    });
-
-    // Nettoyage à la déconnexion du composant
-    return () => {
-      socket.off("updatePlayers");
-    };
-  }, [socketRef]);
 
   // Start the game when all players are ready
   const startNewGame = () => {
@@ -120,6 +95,17 @@ export default function PlayerInLobby({ gameStarted, setGameStarted, room }) {
                   roomId: room, // récupéré depuis useParams()
                   name: player.name, // champ saisi par le joueur
                   color: player.color, // couleur choisie
+                });
+                socketRef.current.on("updatePlayers", (playersList) => {
+                  console.log("Tous les joueurs :", playersList);
+                  setPlayersList(playersList);
+                  const playerInLobby = playersList.find(
+                    (p) => p.id === socketRef.current.id
+                  );
+                  if (playerInLobby) {
+                    setPlayer(playerInLobby);
+                    console.log("Player in lobby:", playerInLobby);
+                  }
                 });
 
                 console.log(
