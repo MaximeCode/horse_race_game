@@ -6,32 +6,71 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck, faWebAwesome } from "@fortawesome/free-solid-svg-icons";
 
-export default function Lobby({ gameStarted, setGameStarted, room }) {
+export default function Lobby({ gameStarted, setGameStarted, room, socket }) {
   const [player, setPlayer] = useState({
+    id: socket.id,
     name: "Player name",
     color: "black",
     leader: false,
   }); // State to manage player in the lobby
 
   const [playerIsReady, setPlayerIsReady] = useState(false);
-  const [playersList, setPlayersList] = useState([]); // State to manage players list
+  const allColors = ["red", "green", "blue", "yellow"];
+  const [availableColors, setAvailableColors] = useState(allColors); // State to manage available colors
 
   // Start the game when all players are ready
   const startNewGame = () => {
     setGameStarted(true);
   };
 
-  const takenNames = playersList.map((player) => player.name); // Get all names taken by players
-  const isNameTaken = (name) => takenNames.includes(name);
+  useEffect(() => {
+    console.log("Room updated:", room);
+    if (room.players) {
+      const takenColors = Object.values(room.players).map(
+        (player) => player.color
+      );
+      setAvailableColors(
+        allColors.filter((color) => !takenColors.includes(color))
+      );
+    }
+  }, [room]);
 
-  const takenColors = playersList.map((player) => player.color); // Get all colors taken by players
-  const colors = ["red", "blue", "green", "yellow"];
-  const availableColors = colors.filter(
-    (color) => !takenColors.includes(color)
-  ); // Get all available colors
+  const isNameTaken = (name) => {
+    const takenNames = Object.values(room.players).map((player) => player.name);
+    return takenNames.includes(name);
+  };
+
+  function readyToPlay() {
+    console.log("Colour taken : ", !availableColors.includes(player.color));
+    console.log("Name taken : ", isNameTaken(player.name));
+
+    if (isNameTaken(player.name)) {
+      alert("Ce nom est déjà pris ! Choisissez-en un autre.");
+    } else if (!availableColors.includes(player.color)) {
+      alert("Cette couleur est déjà prise ! Choisissez-en une autre.");
+    } else {
+      console.log("Player is ready:", player);
+      setPlayerIsReady(true);
+
+      socket.emit("joinRoomToPlay", room.roomName, player);
+      console.log(
+        "Player joined the romm: " +
+          room +
+          " | ID: " +
+          player.id +
+          " | Name: " +
+          player.name +
+          " | Color: " +
+          player.color
+      );
+    }
+  }
 
   return (
     <div>
+      <h1 className="text-3xl font-bold italic text-center mb-4">
+        {room.roomName}
+      </h1>
       {/* When the player arrives, he chooses his name and color */}
       {!playerIsReady ? (
         <div className="max-w-lg space-y-4">
@@ -78,27 +117,7 @@ export default function Lobby({ gameStarted, setGameStarted, room }) {
           {/* Button to enter in a game */}
           <button
             className="w-full bg-green-600 text-white py-2 px-4 mt-5 rounded-md hover:bg-green-700 transition duration-200"
-            onClick={() => {
-              if (isNameTaken(player.name)) {
-                alert("Ce nom est déjà pris ! Choisissez-en un autre.");
-              } else if (takenColors.includes(player.color)) {
-                alert(
-                  "Cette couleur est déjà prise ! Choisissez-en une autre."
-                );
-              } else {
-                console.log("Player is ready:", player);
-                setPlayerIsReady(true);
-
-                console.log(
-                  "Player joined the romm:",
-                  room,
-                  "Name:",
-                  player.name,
-                  "Color:",
-                  player.color
-                );
-              }
-            }}>
+            onClick={() => readyToPlay()}>
             Prêt à jouer !
           </button>
         </div>
@@ -108,7 +127,7 @@ export default function Lobby({ gameStarted, setGameStarted, room }) {
             En attente de l'arrivée des joueurs...
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {playersList.map((player) => (
+            {Object.values(room.players).map((player) => (
               <div
                 key={player.id}
                 className={`relative flex justify-center items-center bg-${player.color}-600 text-white p-6 rounded-md`}>

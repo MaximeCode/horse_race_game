@@ -1,7 +1,33 @@
+"use client";
+
 import DadaHeader from "./components/DadaHeader";
 import PropTypes from "prop-types";
 
+import { socket } from "./utils/socket";
+import React, { useEffect } from "react";
+import { showToast } from "@/app/Components/ToastAlert";
+
 export default function DadaLayout({ children }) {
+  const [errorMessage, setErrorMessage] = React.useState(null);
+
+  useEffect(() => {
+    console.log("🔌 SOCKET INSTANCE :", socket);
+    if (socket.connected) {
+      console.log("✅ Connecté au websocket Dada");
+    } else {
+      console.log("❌ Erreur de connexion au websocket Dada");
+    }
+
+    socket.on("error", (error) => {
+      console.log("❌ Erreur socket :", error);
+      setErrorMessage(error);
+    });
+  }, []);
+
+  useEffect(() => {
+    showToast(errorMessage, true);
+  }, [errorMessage]);
+
   return (
     <>
       <DadaHeader />
