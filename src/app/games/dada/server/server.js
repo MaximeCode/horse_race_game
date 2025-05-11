@@ -70,6 +70,8 @@ io.on("connection", (socket) => {
   socket.on("joinRoomToPlay", (roomName, player) => {
     console.log("🔄 Un joueur est prêt à jouer dans la room : " + roomName);
     if (rooms[roomName]) {
+      console.log("Count des joueurs dans la room : ", Object.keys(rooms[roomName].players).length);
+      Object.keys(rooms[roomName].players).length === 0 && (player.leader = true); // Si c'est le premier joueur, il devient le leader
       rooms[roomName].players[socket.id] = player; // Ajout du joueur à la room (pas de .push() car pas de tableau [])
       socket.join(roomName);
       console.log("🏸🏸 LA ROOM : ", rooms[roomName]);
@@ -91,7 +93,7 @@ io.on("connection", (socket) => {
         if (Object.keys(rooms[room].players).length === 0) {
           delete rooms[room];
           io.emit("updateRoomsList", rooms);
-          io.to(roomName).emit("infoRoom", rooms[roomName]);
+          io.to(room).emit("infoRoom", rooms[room]);
           console.log("✅ Room supprimée : " + room);
         } else {
           console.log("Il reste des joueurs dans la room : " + room);

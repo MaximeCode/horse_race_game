@@ -7,12 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck, faWebAwesome } from "@fortawesome/free-solid-svg-icons";
 
 export default function Lobby({ gameStarted, setGameStarted, room, socket }) {
-  const [player, setPlayer] = useState({
-    id: socket.id,
-    name: "Player name",
-    color: "black",
-    leader: false,
-  }); // State to manage player in the lobby
+  const [player, setPlayer] = useState({});
 
   const [playerIsReady, setPlayerIsReady] = useState(false);
   const allColors = ["red", "green", "blue", "yellow"];
@@ -32,6 +27,19 @@ export default function Lobby({ gameStarted, setGameStarted, room, socket }) {
       setAvailableColors(
         allColors.filter((color) => !takenColors.includes(color))
       );
+    }
+
+    if (room.players) {
+      const playerId = Object.keys(room.players).find(
+        (key) => room.players[key].id === socket.id
+      );
+      setPlayer({
+        id: room.players[playerId]?.id || socket.id,
+        name: room.players[playerId]?.name || "Joueur 1",
+        color: room.players[playerId]?.color || "black",
+        leader: room.players[playerId]?.leader || false,
+      });
+      console.log("Player updated:", player);
     }
   }, [room]);
 
